@@ -22,7 +22,7 @@ CydiaSubstrate 是绝大部分tweak正常工作的基础，主要分为三部分
 	☟Instructions  | ☟Instructions
 	☟FunctionA  | ☟FunctionB  （FunctionA暂存）
 	☟Instructions | ☟Instructions
-	进程先执行一些指令，在原本应该执行的函数A的地方跳转到了函数B的位置执行函数B，同时函数A的	代码被MobielHooker暂时保存了下来。在函数B中，可以选择是否执行函数A，在函数B执行完成	后，则会继续执行剩下的指令。（ps:MSHookFunction的指令长度是有限制的，至少为8字节，如	果要hook住那些段函数该怎么办？---->一种变通的方法是hook住短函数内部调用的其他函数----	短函数之所以短，是因为内部一般都是调用了其他函数，由其他函数来做出实际操作。因此，把长度	符合要求的其他含税作为MSHookFunction的目标，然后在replacement里做一些逻辑判断，将它	与函数关联上，再把对应的短函数的修改写在这里）
+	进程先执行一些指令，在原本应该执行的函数A的地方跳转到了函数B的位置执行函数B，同时函数A的	代码被MobielHooker暂时保存了下来。在函数B中，可以选择是否执行函数A，在函数B执行完成	后，则会继续执行剩下的指令。（ps:MSHookFunction的指令长度是有限制的，至少为8字节，如	果要hook住那些段函数该怎么办？---->一种变通的方法是hook住短函数内部调用的其他函数----	短函数之所以短，是因为内部一般都是调用了其他函数，由其他函数来做出实际操作。因此，把长度	符合要求的其他函数作为MSHookFunction的目标，然后在replacement里做一些逻辑判断，将它	与函数关联上，再把对应的短函数的修改写在这里）
 	
 ##### 二、MobileLoader
 MobileLoader的作用是加载第三方dylib。在iOS启动时，会由launched将MobileLoader载入内存，然后MobileLoader会根据dylib的同名plist文件指定的作用范围，有选择的在不同进程里通过dlopen函数打开目录/Library/MobileSubstrate/DynamicLibraries/下的所有dylib.
